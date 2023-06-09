@@ -1,0 +1,41 @@
+.orderRow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid cornflowerblue;
+    font-size: 14px;
+    margin: 1px 0;
+}
+
+
+.orderRow:hover {
+    border: 2px solid lightsalmon;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.orderRow :nth-child(n){
+    width: 200px;
+}
+
+.orderRow :nth-child(6){
+    width: 20px;
+}
+
+.orderRow :first-child{
+    width: 20px;
+}
+
+.orderRowItem{
+    padding: 10px;
+    margin-left: 2px;
+    text-align: center;
+ 
+    background-color: rgb(243, 249, 255);
+}
+
+.orderRow :last-child{
+    width: 100px;
+    margin-right: 2px;
+    padding-right: 0;
+}

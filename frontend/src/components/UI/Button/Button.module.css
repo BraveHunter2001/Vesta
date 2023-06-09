@@ -1,0 +1,22 @@
+.myBtn {
+    padding:  5px 15px;
+    color: cornflowerblue;
+    font-size: 14px;
+    background: transparent;
+    border: 2px solid cornflowerblue;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.myBtn:hover {
+    color: white;
+    background: cornflowerblue;
+
+}
+
+.myBtn:disabled,
+.myBtn[disabled] {
+    color: lightgray;
+    background: transparent;
+    border: 2px solid lightgray;
+    cursor: auto;
+}

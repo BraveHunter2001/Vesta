@@ -1,0 +1,12 @@
+.orderoForm {
+    width: 500px;
+}
+
+.errorInfo {
+    color:red;
+}
+
+.botBox {
+    display: flex;
+    justify-content: space-between;
+}
