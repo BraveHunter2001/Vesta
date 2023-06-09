@@ -2,7 +2,9 @@
 *Backend*: ASP.NET 7 WEB-API, Entity Framework, Postgresql  
 *Frontend*: ReactJS, Axios  
 
-## Инструкция по запуску 
+## Инструкция по запуску  
+Должен быть установлен Postgresql на системе  
+  
 Сервер запустить можно двумя способами:  
 1) Через **.exe**  
 Тогда в файле `Vesta\frontent\.env.development.local` поставить `REACT_APP_IP_SERVER=http://localhost:5000`  
