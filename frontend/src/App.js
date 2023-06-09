@@ -83,7 +83,7 @@ const App = () => {
         
         <OrdersList showOrderById={showOrderById} orders={orders} />
         {isLoadingorders&& <div className='loader'><Loader/></div>}
-        {errorOrders&& <div className='loader' >{errorOrders}</div>}
+        {errorOrders&& <div className='loader' >Ошибка: {errorOrders}. Подключение с сервером отсутствует. Обновите страницу.</div>}
     </div>
   )
 }
