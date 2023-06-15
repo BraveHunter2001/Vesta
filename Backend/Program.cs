@@ -1,6 +1,7 @@
 using Backend.DAL;
 using Backend.DAL.Interfaces;
 using Backend.DAL.Repositories;
+using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt=>
 });
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<OrderService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

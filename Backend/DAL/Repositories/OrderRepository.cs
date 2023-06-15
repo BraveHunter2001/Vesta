@@ -1,5 +1,4 @@
 ﻿using Backend.DAL.Interfaces;
-using Backend.Exceptions;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,19 +14,15 @@ namespace Backend.DAL.Repositories
         public async Task<Order> GetByIdAsync(int id)
         {
             var order = await _dbContext.Orders.FindAsync(new object[] { id });
-            if (order == null)
-                throw new OrderNotFoundException($"Order with Id:{id} not found!");
             return order;
         }
 
         public async Task AddOrderAsync(Order order) => await _dbContext.Orders.AddAsync(order);
 
 
-        public async Task DeleteOrderAsync(int id)
+        public async Task DeleteOrderAsync(Order order)
         {
-            Order order = await GetByIdAsync(id);
-           
-            _dbContext.Orders.Remove(order);
+           await Task.Run(()=>_dbContext.Orders.Remove(order));
         }
 
         public async Task UpdateOrderAsync(Order order)

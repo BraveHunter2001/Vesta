@@ -1,7 +1,9 @@
 ﻿using Backend.DAL.Interfaces;
+using Backend.DAL.Repositories;
 using Backend.DTO;
 using Backend.Exceptions;
 using Backend.Models;
+using Backend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +14,12 @@ namespace Backend.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly IOrderRepository _orderRepository;
+        
+        private readonly OrderService _orderService;
 
-        public OrderController(IOrderRepository orderRepository)
+        public OrderController(OrderService service)
         {
-            _orderRepository = orderRepository;
+            _orderService = service;
         }
 
         /// <summary>
@@ -28,11 +31,8 @@ namespace Backend.Controllers
         [Route("all")]
         public async Task<ActionResult<ListOrders>> Orders()
         {
-            var orders = await _orderRepository.GetAllAsync();
-
-            ListOrders ordersList = new ListOrders();
-            ordersList.Orders = orders.ToList();
-            return Ok(ordersList);
+            ListOrders orders = await _orderService.GetAllOrdersAsync();
+            return Ok(orders);
         }
 
         /// <summary>
@@ -51,11 +51,13 @@ namespace Backend.Controllers
             Order order;
             try
             {
-                order = await _orderRepository.GetByIdAsync(id);
-            }catch (OrderNotFoundException e) {
+                order = await _orderService.GetOrderByIdAsync(id);
+            }
+            catch (OrderNotFoundException e)
+            {
                 return BadRequest(e.Message);
             }
-           
+
             return Ok(order);
         }
         /// <summary>
@@ -69,19 +71,8 @@ namespace Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateOrder([FromBody] CreatedOrder createdOrder)
         {
-            Console.WriteLine(createdOrder.PickupDate);
-            Order order = new Order()
-            {
-                SenderAddres = createdOrder.SenderAddres,
-                SenderСity = createdOrder.SenderСity,
-                RecipientAddres = createdOrder.RecipientAddres,
-                RecipientCity = createdOrder.RecipientCity,
-                WeightCargo = createdOrder.WeightCargo,
-                PickupDate = createdOrder.PickupDate,
-            };
-
-            await _orderRepository.AddOrderAsync(order);
-            await _orderRepository.SaveAsync();
+           
+            Order order = await _orderService.CreateOrderAsync(createdOrder);
             return CreatedAtAction("Orders", order);
         }
 
@@ -92,13 +83,13 @@ namespace Backend.Controllers
         /// <returns></returns>
         /// <response code="200">Order successful deleted</response>
         /// <response code= "404"> Order not found</response>
-        [HttpDelete]
+        [HttpDelete]       
         [Route("delete")]
         public async Task<IActionResult> DeleteOrder([FromBody]int id)
         {
             try
             {
-                await _orderRepository.DeleteOrderAsync(id);
+                await _orderService.DeleteOrderAsync(id);
             }
             catch (OrderNotFoundException e)
             {
