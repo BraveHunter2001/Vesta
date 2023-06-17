@@ -38,11 +38,16 @@ const CreateOrderForm = ({create}) => {
     },[orderCreated])
 
     const createOrder = (e) => {
-
-
         e.preventDefault()
-
         create(orderCreated)
+        setOrderCreated({
+            pickupDate: '',
+            recipientAddres:'',
+            recipientCity:'',
+            senderAddres:'',
+            senderСity:'',
+            weightCargo:0,
+        });
     }
   return (
     <div className={cl.orderoForm}>

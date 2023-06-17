@@ -71,8 +71,13 @@ namespace Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateOrder([FromBody] CreatedOrder createdOrder)
         {
-           
-            Order order = await _orderService.CreateOrderAsync(createdOrder);
+            Order order;
+            try
+            {
+                order = await _orderService.CreateOrderAsync(createdOrder);
+            }
+            catch (OrderValidationException e)
+            { return BadRequest(e.Message); }    
             return CreatedAtAction("Orders", order);
         }
 

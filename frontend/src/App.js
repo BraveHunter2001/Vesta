@@ -11,6 +11,9 @@ import Loader from './components/UI/Loader/Loader';
 
 
 const App = () => {
+    const [modalCreateShow,setModalCreateShow] = useState(false);
+
+
     const [modalCreate,setModalCreate] = useState(false);
     const [createOrder,setCreateOrder] = useState();
     const [diabledButCreate, setDiabledButCreate] = useState(true);
@@ -29,13 +32,14 @@ const App = () => {
 
     const [fetchingCreate, isLoadingCreate, errorCreate] = useFetching(async () =>{
         const response = await OrderService.createOrder(createOrder);
-        setOrders([...orders,response.data])
+        setOrderShow(response.data);
         console.log(response);
     })
 
     const [fetchingOrders, isLoadingorders, errorOrders] = useFetching(async () =>{
         const response = await OrderService.getAll();
-        setOrders(response.data.orders);
+        const sortOrders = response.data.orders.sort( (a, b) => b.id - a.id)
+        setOrders(sortOrders);
         console.log(response);
     })
 
@@ -47,7 +51,10 @@ const App = () => {
         if(!createOrder) return;
         const cr = async () =>{ 
             setModalCreate(false);
-            fetchingCreate();
+            await fetchingCreate();
+            await fetchingOrders();
+
+            setModalCreateShow(true);
         }
         cr();
     },[createOrder])
@@ -76,8 +83,12 @@ const App = () => {
             <CreateOrderForm create={create}></CreateOrderForm>
         </Modal>
 
+        <Modal visible={modalCreateShow} setVisible={setModalCreateShow}>
+            <ShowOrder title={`Создан заказ №${orderShow.id}`} order={orderShow}></ShowOrder>
+        </Modal>
+
         <Modal visible={modalOrderShow} setVisible={setModalOrderShow}>
-            <ShowOrder order={orderShow}></ShowOrder>
+            <ShowOrder title={`Заказ №${orderShow.id}`} order={orderShow}></ShowOrder>
         </Modal>
 
         

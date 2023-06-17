@@ -1,10 +1,10 @@
 import React from 'react'
 import { dateCut } from '../../utils/date'
 
-const ShowOrder = ({order}) => {
+const ShowOrder = ({title,order}) => {
   return (
     <div className='ShowOrder'>
-      <h2>Заказ №{order.id}</h2>
+      <h2>{title}</h2>
         <div>Город отправителя: <b>{order.senderСity}</b></div>
         <div>Адрес отправителя: <b>{order.senderAddres}</b></div>
         <div>Город получателя: <b>{order.recipientCity}</b></div>

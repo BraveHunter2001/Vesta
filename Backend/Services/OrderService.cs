@@ -35,7 +35,7 @@ namespace Backend.Services
 
         public async Task<Order> CreateOrderAsync(CreatedOrder createdOrder)
         {
-            if (createdOrder.WeightCargo > 0)
+            if (createdOrder.WeightCargo <= 0)
                 throw new OrderValidationException("WeightCargo shoud't less zero");
             if (createdOrder.PickupDate < DateTime.Now)
                 throw new OrderValidationException("PickupDate shoud't less now day");
@@ -62,6 +62,7 @@ namespace Backend.Services
         {
             var order = await GetOrderByIdAsync(id);
             await _orderRepository.DeleteOrderAsync(order);
+            await _orderRepository.SaveAsync();
         }
       
     }
